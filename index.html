@@ -4,219 +4,207 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Trao đổi nước ở thực vật – 3 giai đoạn</title>
-  <meta name="description" content="Bài học tương tác: Hấp thụ nước & khoáng ở lông hút (thẩm thấu, thu động/chủ động) → Vận chuyển vào mạch gỗ (apoplast & symplast). Câu hỏi Đúng/Sai, Điền, Kéo-thả, Trả lời ngắn; dark/light mode; ảnh & video."/>
-
+  <meta name="description" content="Bài học tương tác: Lông hút hấp thụ (thẩm thấu, thu động/chủ động) → Vận chuyển vào mạch gỗ (apoplast & symplast) → Dòng lên + thoát hơi & khí khổng. Gồm câu hỏi Đúng/Sai, Điền, Kéo‑thả, Trả lời ngắn; dark/light; ảnh & video."/>
   <style>
-    /* ==========================
-       1) BIẾN MÀU CHO LIGHT/DARK
-       - Dùng CSS variables để đổi theme nhanh
-       ========================== */
-    :root{ --bg:#f8fafc; --panel:#ffffff; --text:#0f172a; --muted:#475569; --primary:#2563eb; --primary-contrast:#ffffff; --border:#e2e8f0; --accent:#10b981; --success:#16a34a; --danger:#dc2626; --shadow:0 10px 25px rgba(2,6,23,.08); }
-    [data-theme="dark"]{ --bg:#0b1220; --panel:#0f172a; --text:#e5e7eb; --muted:#94a3b8; --primary:#60a5fa; --primary-contrast:#0b1220; --border:#1f2a44; --accent:#34d399; --success:#22c55e; --danger:#f87171; --shadow:0 10px 25px rgba(0,0,0,.35); }
-
-    /* Reset & base */
-    *,*::before,*::after{ box-sizing:border-box }
-    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif; background:var(--bg); color:var(--text); line-height:1.6 }
-    img{ max-width:100%; display:block; border-radius:14px }
-    h1,h2,h3{ line-height:1.25; margin:0 0 .5rem }
-    p{ margin:.5rem 0 1rem }
-
-    /* Khung trang & thanh tiêu đề dính */
-    .container{ max-width:1100px; margin:0 auto; padding:24px }
-    header{ position:sticky; top:0; z-index:10; background:rgba(255,255,255,.6); backdrop-filter:saturate(160%) blur(8px); border-bottom:1px solid var(--border) }
-    [data-theme="dark"] header{ background:rgba(15,23,42,.6) }
-    .toolbar{ display:flex; align-items:center; gap:12px; justify-content:space-between; padding:12px 24px }
-
-    /* Mục lục (TOC) nổi */
-    nav.toc{ position:sticky; top:60px; z-index:5; background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:10px; margin-top:10px; box-shadow:var(--shadow) }
-    nav.toc a{ display:block; color:var(--text); padding:.45rem .6rem; text-decoration:none; border-radius:10px; border:1px solid transparent }
-    nav.toc a:hover{ background:linear-gradient(180deg,rgba(148,163,184,.12),transparent); color:var(--primary) }
-    nav.toc a.active{ border-color:var(--primary); color:var(--primary); font-weight:700 }
-
-    html{ scroll-behavior:smooth } /* Cuộn mượt tới anchor */
-
-    /* Lưới & thẻ nội dung cơ bản */
-    .grid{ display:grid; grid-template-columns:repeat(12,1fr); gap:18px }
-    .card{ grid-column:span 12; background:var(--panel); border:1px solid var(--border); border-radius:18px; padding:18px; box-shadow:var(--shadow) }
-    @media(min-width:820px){ .card.split{ display:grid; grid-template-columns:1.1fr .9fr; align-items:center } .aside{ grid-column:span 4 } .main{ grid-column:span 8 } .card.half{ grid-column:span 6 } }
-
-    /* Nút chung */
-    .btn{ border:1px solid var(--border); background:var(--panel); color:var(--text); padding:.6rem 1rem; border-radius:12px; cursor:pointer; font-weight:600 }
-    .btn.primary{ background:var(--primary); color:var(--primary-contrast); border-color:transparent }
-    .pill{ display:inline-flex; align-items:center; gap:8px; background:rgba(99,102,241,.12); color:var(--primary); padding:.35rem .65rem; border-radius:999px; font-size:.85rem; margin:.2rem .4rem .2rem 0 }
-    .status{ font-size:.9rem; color:var(--muted) }
-
-    /* Khoảng cách giữa các section để dễ nhìn */
-    .section-spacing{ margin-top:40px; margin-bottom:40px }
-
-    /* Bộ câu hỏi: khung & trạng thái đúng/sai */
-    .q-item{ border:1px solid var(--border); border-radius:14px; padding:14px; margin-bottom:12px }
-    .q-item.correct{ border-color:var(--success) }
-    .q-item.wrong{ border-color:var(--danger) }
-    .explain{ font-size:.92rem; color:var(--muted); margin-top:.4rem }
-    .score{ font-weight:700 }
-
-    /* Màu nền khác nhau cho từng kiểu câu hỏi để dễ phân biệt */
-    .q-item.truefalse{ background:linear-gradient(180deg,rgba(147,197,253,.12),transparent) }
-    .q-item.fill{ background:linear-gradient(180deg,rgba(167,243,208,.12),transparent) }
-    .q-item.short{ background:linear-gradient(180deg,rgba(253,230,138,.12),transparent) }
-    .q-item.dragdrop{ background:linear-gradient(180deg,rgba(196,181,253,.12),transparent) }
-
-    /* Ô nhập liệu đẹp & nhất quán */
-    .input, textarea.input{ display:block; width:100%; padding:.6rem .8rem; border:1px solid var(--border); border-radius:12px; background:var(--panel); color:var(--text); font-size:1rem; margin-top:.4rem; transition:border-color .2s ease, box-shadow .2s ease }
-    .input:focus, textarea.input:focus{ border-color:var(--primary); box-shadow:0 0 0 3px rgba(37,99,235,.15); outline:none }
-    textarea.input{ min-height:60px; resize:vertical }
-
-    /* Kéo–thả: làm đẹp ngân hàng token & ô nhận */
-    .dd-bank{ display:flex; flex-wrap:wrap; gap:8px; padding:8px; border:1px dashed var(--border); border-radius:14px; background:rgba(148,163,184,.08) }
-    .dd-token{ padding:.4rem .7rem; border:1px solid var(--border); border-radius:999px; background:var(--panel); box-shadow:0 1px 3px rgba(0,0,0,.08); cursor:grab; transition:transform .15s ease }
-    .dd-token:active{ transform:scale(.95) }
-    .dd-row{ display:grid; grid-template-columns:1fr 180px; gap:10px; align-items:center; margin:.5rem 0 }
-    .dd-drop{ min-height:40px; border:1px dashed var(--border); border-radius:14px; padding:.4rem .6rem; background:rgba(255,255,255,.4); transition:background .2s ease, border-color .2s ease }
-    .dd-drop:empty::before{ content:'Kéo thả vào đây'; font-size:.85rem; color:var(--muted) }
-    .dd-drop:hover{ border-color:var(--primary); background:rgba(148,163,184,.15) }
-
-    /* Hiệu ứng khi đổi theme: mượt màu nền/chữ/viền */
-    html, body, .card, .btn, nav.toc, .q-item, .input, textarea.input, .dd-drop, .dd-token{ transition:background-color .4s ease, color .4s ease, border-color .4s ease, box-shadow .4s ease }
-
-    /* Tiêu đề từng giai đoạn mỗi màu riêng để trực quan */
-    #giai-doan-1 h2{ color:#2563eb }
-    #giai-doan-2 h2{ color:#10b981 }
-    #giai-doan-3 h2{ color:#f59e0b }
-
-    /* Question Palette: dải số câu hỏi để nhảy nhanh & theo dõi tiến độ */
-    #questionPalette{ margin:10px 0; display:flex; flex-wrap:wrap; gap:6px }
-    .q-pal-btn{ width:32px; height:32px; display:flex; align-items:center; justify-content:center; border-radius:8px; border:1px solid var(--border); background:var(--panel); color:var(--text); cursor:pointer; transition:background .2s ease, border-color .2s ease }
-    .q-pal-btn:hover{ border-color:var(--primary) }
-    .q-pal-btn.done{ background:var(--accent); color:#fff }
-
-    /* ===== Làm đẹp thanh bộ lọc (mức độ & kiểu câu hỏi) ===== */
+    :root{--bg:#f8fafc;--panel:#ffffff;--text:#0f172a;--muted:#475569;--primary:#2563eb;--primary-contrast:#ffffff;--border:#e2e8f0;--accent:#10b981;--success:#16a34a;--danger:#dc2626;--shadow:0 10px 25px rgba(2,6,23,.08)}
+    [data-theme="dark"]{--bg:#0b1220;--panel:#0f172a;--text:#e5e7eb;--muted:#94a3b8;--primary:#60a5fa;--primary-contrast:#0b1220;--border:#1f2a44;--accent:#34d399;--success:#22c55e;--danger:#f87171;--shadow:0 10px 25px rgba(0,0,0,.35)}
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    img{max-width:100%;display:block;border-radius:14px}
+    h1,h2,h3{line-height:1.25;margin:0 0 .5rem}
+    p{margin:.5rem 0 1rem}
+    .container{max-width:1100px;margin:0 auto;padding:24px}
+    header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.6);backdrop-filter:saturate(160%) blur(8px);border-bottom:1px solid var(--border)}
+    [data-theme="dark"] header{background:rgba(15,23,42,.6)}
+    .toolbar{display:flex;align-items:center;gap:12px;justify-content:space-between;padding:12px 24px}
+    nav.toc{position:sticky;top:60px;z-index:5;background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:10px;margin-top:10px;box-shadow:var(--shadow);display:flex;flex-wrap:wrap;gap:8px;align-items:center;overflow:auto}
+    nav.toc strong{margin-right:6px}
+    nav.toc a{display:inline-flex;align-items:center;gap:6px;color:var(--text);padding:.5rem .75rem;text-decoration:none;border-radius:12px;border:1px solid var(--border);background:var(--panel)}
+    nav.toc a:hover{background:linear-gradient(180deg,rgba(148,163,184,.12),transparent);color:var(--primary)}
+    nav.toc a.active{border-color:var(--primary);color:var(--primary);font-weight:700;box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+    html{scroll-behavior:smooth}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+    .card{grid-column:span 12;background:var(--panel);border:1px solid var(--border);border-radius:18px;padding:18px;box-shadow:var(--shadow)}
+    @media(min-width:820px){.card.split{display:grid;grid-template-columns:1.1fr .9fr;align-items:center}.aside{grid-column:span 4}.main{grid-column:span 8}.card.half{grid-column:span 6}}
+    .btn{border:1px solid var(--border);background:var(--panel);color:var(--text);padding:.6rem 1rem;border-radius:12px;cursor:pointer;font-weight:600}
+    .btn.primary{background:var(--primary);color:var(--primary-contrast);border-color:transparent}
+    .status{font-size:.9rem;color:var(--muted)}
+    .section-spacing{margin-top:40px;margin-bottom:40px}
+    .q-item{border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px}
+    .q-item.correct{border-color:var(--success)}
+    .q-item.wrong{border-color:var(--danger)}
+    .explain{font-size:.92rem;color:var(--muted);margin-top:.4rem}
+    .score{font-weight:700}
+    .q-item.truefalse{background:linear-gradient(180deg,rgba(147,197,253,.12),transparent)}
+    .q-item.fill{background:linear-gradient(180deg,rgba(167,243,208,.12),transparent)}
+    .q-item.short{background:linear-gradient(180deg,rgba(253,230,138,.12),transparent)}
+    .q-item.dragdrop{background:linear-gradient(180deg,rgba(196,181,253,.12),transparent)}
+    .input,textarea.input{display:block;width:100%;padding:.6rem .8rem;border:1px solid var(--border);border-radius:12px;background:var(--panel);color:var(--text);font-size:1rem;margin-top:.4rem;transition:border-color .2s ease,box-shadow .2s ease}
+    .input:focus,textarea.input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15);outline:none}
+    textarea.input{min-height:60px;resize:vertical}
+    .dd-bank{display:flex;flex-wrap:wrap;gap:8px;padding:8px;border:1px dashed var(--border);border-radius:14px;background:rgba(148,163,184,.08)}
+    .dd-token{padding:.4rem .7rem;border:1px solid var(--border);border-radius:999px;background:var(--panel);box-shadow:0 1px 3px rgba(0,0,0,.08);cursor:grab;transition:transform .15s ease}
+    .dd-token:active{transform:scale(.95)}
+    .dd-row{display:grid;grid-template-columns:1fr 180px;gap:10px;align-items:center;margin:.5rem 0}
+    .dd-drop{min-height:40px;border:1px dashed var(--border);border-radius:14px;padding:.4rem .6rem;background:rgba(255,255,255,.4);transition:background .2s ease,border-color .2s ease}
+    .dd-drop:empty::before{content:'Kéo thả vào đây';font-size:.85rem;color:var(--muted)}
+    .dd-drop:hover{border-color:var(--primary);background:rgba(148,163,184,.15)}
+    html,body,.card,.btn,nav.toc,.q-item,.input,textarea.input,.dd-drop,.dd-token{transition:background-color .4s ease,color .4s ease,border-color .4s ease,box-shadow .4s ease}
+    #giai-doan-1 h2{color:#2563eb}
+    #giai-doan-2 h2{color:#d946ef}
+    #giai-doan-3 h2{color:#f59e0b}
+    #vai-tro h2{color:#8b5cf6}
+    #questionPalette{margin:10px 0;display:flex;flex-wrap:wrap;gap:6px}
+    .q-pal-btn{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:8px;border:1px solid var(--border);background:var(--panel);color:var(--text);cursor:pointer;transition:background .2s ease,border-color .2s ease}
+    .q-pal-btn:hover{border-color:var(--primary)}
+    .q-pal-btn.done{background:var(--accent);color:#fff}
     .filter-bar{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;background:linear-gradient(180deg,rgba(148,163,184,.12),transparent);border:1px solid var(--border);border-radius:14px;padding:10px}
     .filter-bar .group{display:flex;align-items:center;gap:8px;font-weight:600}
     .select{appearance:none;-webkit-appearance:none;-moz-appearance:none;padding:.55rem .9rem;border:1px solid var(--border);border-radius:10px;background:var(--panel);color:var(--text);cursor:pointer;min-width:160px;line-height:1.2;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2364738b' viewBox='0 0 16 16'%3E%3Cpath d='M3.2 6l4.8 5L12.8 6H3.2z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right .6rem center;background-size:16px}
     .select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
-
-    /* ===== Header mỗi câu với icon ===== */
     .q-header{display:flex;align-items:center;gap:10px;font-weight:700;margin-bottom:.35rem}
     .q-icon{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:999px;background:rgba(148,163,184,.18);border:1px solid var(--border);font-size:14px}
-
-    /* ===== Phương án chọn Đúng/Sai dạng "pill" đẹp mắt ===== */
     .choices{display:flex;gap:10px;flex-wrap:wrap;margin-top:.4rem}
     .choice{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:12px;padding:.45rem .7rem;cursor:pointer;background:var(--panel)}
     .choice input{display:none}
-    .choice input:checked + span{border-color:var(--primary);background:linear-gradient(180deg,rgba(37,99,235,.15),transparent);color:var(--primary);padding:.1rem .2rem;border-radius:8px}
-
-    .footer{ margin:28px 0 40px; color:var(--muted); text-align:center }
+    .choice input:checked+span{border-color:var(--primary);background:linear-gradient(180deg,rgba(37,99,235,.15),transparent);color:var(--primary);padding:.1rem .2rem;border-radius:8px}
+    .footer{margin:28px 0 40px;color:var(--muted);text-align:center}
+    .theme-overlay{position:fixed;inset:0;pointer-events:none;background:radial-gradient(1200px 1200px at var(--x,50%) var(--y,50%),rgba(99,102,241,.25),transparent 60%);animation:themeFade .6s ease-out;z-index:999}
+    @keyframes themeFade{from{opacity:1}to{opacity:0}}
   </style>
 </head>
 <body>
-  <!-- ==========================
-       HEADER + NÚT CHUYỂN CHẾ ĐỘ
-       ========================== -->
   <header>
     <div class="toolbar container">
       <div>
         <h1>Trao đổi nước ở thực vật</h1>
         <div class="status">Bài học tương tác · 3 giai đoạn · có ảnh & video</div>
       </div>
-      <!-- Nút đổi theme: icon sẽ đổi theo trạng thái (JS bên dưới) -->
       <button class="btn" id="themeBtn" aria-label="Chuyển chủ đề">🌙/☀️</button>
     </div>
   </header>
-
-  <!-- ==========================
-       THÂN TRANG: HEADING + TOC + NỘI DUNG
-       ========================== -->
   <main class="container">
-    <!-- Heading trang trong một card để nổi bật -->
     <section class="grid section-spacing" id="bai-lam">
       <article class="card">
         <h1 style="text-align:center;font-size:2rem;margin:10px 0;">Bài làm về trao đổi nước ở thực vật</h1>
       </article>
     </section>
-
-    <!-- Nút ẩn/hiện mục lục để tiết kiệm không gian trên màn hình nhỏ -->
     <button class="btn" id="toggleToc" style="margin-bottom:10px">Hiện/Ẩn mục lục</button>
-
-    <!-- TOC: các anchor đến từng phần; có scrollspy để bôi đậm mục đang xem -->
     <nav class="toc" id="tocNav">
       <strong>Đi tới mục:</strong>
-      <a href="#giai-doan-1">① Hấp thụ ở lông hút</a>
-      <a href="#giai-doan-2">② Vận chuyển vào mạch gỗ</a>
-      <a href="#giai-doan-3">③ Vận chuyển lên & thoát hơi</a>
+      <a href="#vai-tro">Vai trò của nước</a>
+      <a href="#giai-doan-1">① Lông hút: thẩm thấu & khoáng</a>
+      <a href="#giai-doan-2">② Sự vận chuyển từ rễ lên lá</a>
+      <a href="#giai-doan-3">③ Dòng lên & thoát hơi</a>
       <a href="#quizSection">Câu hỏi kiểm tra</a>
     </nav>
-
-    <!-- ===== GIAI ĐOẠN 1: LÔNG HÚT ===== -->
-    <section class="grid section-spacing" id="giai-doan-1">
+    <section class="grid section-spacing" id="vai-tro">
       <article class="card half">
-        <h2>① Hấp thụ nước ở tế bào lông hút</h2>
-        <p><strong>Thẩm thấu:</strong> Nước di chuyển <em>từ đất</em> (thế nước cao) <em>vào</em> tế bào lông hút (thế nước thấp) qua màng sinh chất.</p>
-        <h3>Hấp thụ khoáng ở lông hút</h3>
+        <h2>Vai trò của nước với thực vật</h2>
+        <p>Trong cây, nước tồn tại ở 2 dạng: <strong>nước tự do</strong> và <strong>nước liên kết</strong>. Nước tự do có ý nghĩa đối với quá trình trao đổi chất của cây, còn nước liên kết bảo vệ cho keo nguyên sinh chất khỏi bị đông tụ và ngăn cản sự phá huỷ cấu trúc của các bào quan. Thực vật có khả năng chống chịu với điều kiện bất lợi của môi trường tốt có hàm lượng nước liên kết cao hơn thực vật không chống chịu. Nước đóng vai trò quan trọng và thiết yếu đối với thực vật.</p>
         <ul>
-          <li><strong>Thu động:</strong> Ion đi theo <em>gradien nồng độ</em> từ đất → rễ, <em>không tiêu tốn năng lượng</em>.</li>
-          <li><strong>Chủ động:</strong> Ion đi <em>ngược gradien nồng độ</em> nhờ bơm màng dùng <abbr title="Adenosine triphosphate">ATP</abbr>.</li>
+          <li><strong>Nguyên liệu</strong> cho quang hợp và tham gia phản ứng sinh hóa.</li>
+          <li><strong>Môi trường hoà tan</strong> và <strong>vận chuyển</strong> khoáng qua xylem.</li>
+          <li><strong>Duy trì sức trương</strong>, hình thái tế bào & sinh trưởng.</li>
+          <li><strong>Điều hoà nhiệt</strong> nhờ thoát hơi nước.</li>
         </ul>
       </article>
       <article class="card half">
-        <!-- Ảnh minh hoạ rễ/lông hút -->
+        <img alt="Vai trò của nước" src="https://images.unsplash.com/photo-1523292562811-8fa7962a78c8?q=80&w=800&auto=format&fit=crop"/>
+      </article>
+    </section>
+    <section class="grid section-spacing" id="giai-doan-1">
+      <article class="card half">
+        <h2>① Lông hút: thẩm thấu & hấp thụ khoáng</h2>
+        <ul>
+          <li><strong>Thực vật thủy sinh:</strong> hút nước qua toàn bộ bề mặt cơ thể.</li>
+          <li><strong>Thực vật trên cạn:</strong> chủ yếu hút nước qua lông hút của rễ.</li>
+          <li><strong>Động lực:</strong> chênh lệch thế nước (nước di chuyển từ nơi có thế nước cao → nơi có thế nước thấp).</li>
+          <li><strong>Cơ chế chủ động:</strong> rễ hô hấp mạnh tạo ATP, dùng ATP để vận chuyển ion vào không bào → tăng áp suất thẩm thấu → hút nước.</li>
+        </ul>
+        <p><strong>Đặc điểm thích nghi của tế bào lông hút:</strong></p>
+        <ul>
+          <li>Không bào trung tâm lớn.</li>
+          <li>Thành mỏng, không thấm cutin.</li>
+          <li>Hô hấp mạnh, tạo áp suất thẩm thấu cao.</li>
+        </ul>
+        <p><strong>Ý nghĩa:</strong></p>
+        <ul>
+          <li>Cung cấp nguyên liệu nước cho các quá trình sống (quang hợp, hô hấp, vận chuyển chất).</li>
+          <li>Làm dung môi hòa tan và vận chuyển muối khoáng từ đất vào cây.</li>
+          <li>Giúp duy trì áp suất thẩm thấu, độ trương nước → giữ cho tế bào không bị héo.</li>
+        </ul>
+        <p><strong>Thẩm thấu:</strong> Nước đi <em>từ đất → vào</em> tế bào lông hút theo chênh lệch thế nước.</p>
+        <p><strong>Khoáng:</strong></p>
+        <ul>
+          <li><strong>Thu động</strong> (theo gradien nồng độ, không dùng ATP).</li>
+          <li><strong>Chủ động</strong> (ngược gradien, nhờ bơm màng dùng <abbr title="Adenosine triphosphate">ATP</abbr>).</li>
+        </ul>
+        <p class="status">Lông hút <em>thích nghi</em>: thành mỏng, nhiều, tuổi thọ ngắn, tăng diện tích tiếp xúc đất.</p>
+      </article>
+      <article class="card half">
         <img alt="Lông hút rễ" src="https://video.vietjack.com/upload2/quiz_source1/2022/01/screenshot-1641367523-1641367406.png"/>
       </article>
     </section>
-
-    <!-- ===== GIAI ĐOẠN 2: VÀO MẠCH GỖ ===== -->
     <section class="grid section-spacing" id="giai-doan-2">
       <article class="card split">
         <div class="main">
-          <h2>② Vận chuyển nước & khoáng từ lông hút vào mạch gỗ của rễ</h2>
-          <p>Diễn ra qua <strong>hai con đường</strong>:</p>
+          <h2>Sự vận chuyển từ rễ lên lá</h2>
           <ul>
-            <li><strong>Con đường gian bào (apoplast):</strong> nước/ion đi <em>giữa các thành tế bào</em> tới đai Caspari (nội bì).</li>
-            <li><strong>Con đường tế bào chất (symplast):</strong> đi <em>trong tế bào chất</em> qua cầu nối <em>plasmodesmata</em>.</li>
+            <li><strong>Nước từ lông hút → mạch gỗ qua 2 con đường:</strong>
+              <ul>
+                <li><strong>Gian bào (apoplast):</strong> đi theo vách tế bào.</li>
+                <li><strong>Tế bào chất (symplast):</strong> đi qua chất nguyên sinh qua cầu nối plasmodesmata.</li>
+              </ul>
+              → Đến nội bì thì buộc phải đi theo con đường tế bào chất để vào mạch gỗ.
+            </li>
           </ul>
-          <p class="status">Đai Caspari chặn dòng gian bào, buộc nước/ion <em>qua màng</em> trước khi vào mạch gỗ → kiểm soát chọn lọc.</p>
+          <ul>
+            <li><strong>Nước di chuyển trong mạch gỗ nhờ 3 lực:</strong>
+              <ul>
+                <li>Lực đẩy của áp suất rễ.</li>
+                <li>Lực liên kết – bám dính (giữa các phân tử nước và thành mạch).</li>
+                <li>Lực hút do thoát hơi nước ở lá (quan trọng nhất).</li>
+              </ul>
+            </li>
+          </ul>
+          <p><strong>Ý nghĩa:</strong></p>
+          <ul>
+            <li>Đưa nước và muối khoáng từ rễ → lá, nơi diễn ra quang hợp.</li>
+            <li>Duy trì dòng vận chuyển liên tục trong cơ thể cây.</li>
+            <li>Tạo sức căng – độ cứng cho cây (giúp cây đứng vững).</li>
+          </ul>
         </div>
         <div class="aside">
-          <!-- Nhúng video: dùng ID YouTube trực tiếp để tránh redirect -->
           <iframe title="Video minh họa" width="100%" height="260" style="border:0;border-radius:14px" src="https://www.youtube.com/embed/JFPOxRfsBWQ" loading="lazy" allowfullscreen></iframe>
           <div class="status">Video YouTube theo liên kết bạn cung cấp.</div>
         </div>
       </article>
     </section>
-
-    <!-- ===== GIAI ĐOẠN 3: LÊN THÂN & THOÁT HƠI ===== -->
     <section class="grid section-spacing" id="giai-doan-3">
       <article class="card half">
-        <h2>③ Vận chuyển lên & thoát hơi ở lá</h2>
-        <p>Cột nước trong mạch gỗ được <em>kéo</em> lên nhờ thoát hơi nước tại lá, đồng thời nước thoát chủ yếu qua <strong>khí khổng</strong>.</p>
+        <h2>③ Dòng lên & thoát hơi nước ở lá</h2>
+        <p><strong>Ba lực duy trì dòng nước:</strong></p>
+        <ol>
+          <li><strong>Áp suất rễ</strong> (đẩy).</li>
+          <li><strong>Liên kết – bám dính</strong> (cohesion – adhesion) trong cột nước xylem.</li>
+          <li><strong>Lực hút thoát hơi</strong> ở lá (kéo).</li>
+        </ol>
         <details>
-          <summary>Tóm tắt chuỗi lực đẩy – kéo</summary>
-          <ol>
-            <li>Thoát hơi ở lá → giảm thế nước ở lá</li>
-            <li>Hút nước từ xylem ở rễ – thân → tăng hút từ đất</li>
-            <li>Củng cố dòng nước/khoáng từ lông hút → mạch gỗ</li>
-          </ol>
+          <summary>Thoát hơi & khí khổng (tóm tắt)</summary>
+          <p>Nước khuếch tán từ <em>tế bào nhu mô lá → khoảng gian bào → qua khí khổng → ra khí quyển</em>. Cơ chế đóng/mở khí khổng liên quan đến áp suất trương của tế bào khí khổng (ion K⁺, ABA, ánh sáng,...).</p>
         </details>
       </article>
       <article class="card half">
-        <!-- Ảnh minh hoạ lá/giọt nước -->
         <img alt="Giọt nước trên lá" src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1200&auto=format&fit=crop&sat=-30"/>
       </article>
     </section>
-
-    <!-- ==========================
-         KHỐI CÂU HỎI TƯƠNG TÁC
-         ========================== -->
     <section class="grid section-spacing">
       <article class="card">
-        <!-- Nút ẩn/hiện toàn bộ phần câu hỏi -->
         <button class="btn primary" id="toggleQuiz">Hiện/Ẩn câu hỏi</button>
-
         <div id="quizSection" style="display:none;margin-top:12px">
           <h2 id="quizSectionHeading">Câu hỏi kiểm tra kiến thức</h2>
-          <div class="status">Chọn mức độ & kiểu câu hỏi đúng với nội dung ba giai đoạn.</div>
-
-          <!-- Bộ lọc mức độ & kiểu câu hỏi -->
+          <div class="status">Chọn mức độ & kiểu câu hỏi phù hợp nội dung.</div>
           <div class="filter-bar">
             <label class="group">Mức độ
               <select id="levelFilter" class="select">
@@ -236,15 +224,9 @@
               </select>
             </label>
           </div>
-
-          <!-- Question Palette: hiện danh sách số câu hỏi, thêm sau khi render -->
           <div id="questionPalette" aria-label="Danh sách câu hỏi"></div>
-
-          <!-- Vùng sẽ render câu hỏi -->
           <div id="quiz" style="margin-top:10px"></div>
-
-          <!-- Nút nộp bài / làm lại + điểm -->
-          <div style="display:flex; gap:10px; margin-top:10px">
+          <div style="display:flex;gap:10px;margin-top:10px">
             <button class="btn" id="submitQuiz" aria-label="Nộp bài">Nộp bài</button>
             <button class="btn" id="resetQuiz" aria-label="Làm lại">Làm lại</button>
             <div style="margin-left:auto" class="score" id="scoreBox" aria-live="polite">Điểm: 0/0</div>
@@ -252,425 +234,202 @@
         </div>
       </article>
     </section>
-
     <p class="footer">© 2025 Bài học mô phỏng</p>
   </main>
-
   <script>
-    /* ======================================
-       THEME TOGGLE (LIGHT/DARK) + ICON
-       - Lưu theme vào localStorage
-       - Đổi icon theo trạng thái hiện tại
-       ====================================== */
-    const savedTheme = localStorage.getItem('theme');
-    const themeBtn = document.getElementById('themeBtn');
-    if(savedTheme){
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      themeBtn.textContent = savedTheme==='dark' ? '☀️' : '🌙'; // dark → gợi ý chuyển sang sáng
-    }else{
-      themeBtn.textContent = '🌙'; // mặc định hiện trăng (đang sáng)
-    }
-    themeBtn.addEventListener('click',()=>{
-      const current = document.documentElement.getAttribute('data-theme');
-      const next = current==='dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', next);
-      localStorage.setItem('theme', next);
-      themeBtn.textContent = next==='dark' ? '☀️' : '🌙';
-    });
-
-    /* ======================================
-       ẨN/HIỆN MỤC LỤC (TOC)
-       - Dùng class .hidden để trượt ẩn/hiện bằng CSS transition
-       ====================================== */
-    const toggleTocBtn = document.getElementById('toggleToc');
-    const tocNav = document.getElementById('tocNav');
-    // Chuẩn bị CSS động cho hiệu ứng ẩn/hiện (đặt ở đây để tách biệt logic)
-    tocNav.style.transition = 'transform .3s ease, opacity .3s ease';
-    const hideClass = 'hidden';
-    const styleHidden = document.createElement('style');
-    styleHidden.textContent = `#tocNav.hidden{transform:translateX(-110%);opacity:0;pointer-events:none}`;
+    const savedTheme=localStorage.getItem('theme');
+    const themeBtn=document.getElementById('themeBtn');
+    if(savedTheme){document.documentElement.setAttribute('data-theme',savedTheme);themeBtn.textContent=savedTheme==='dark'?'☀️':'🌙'}else{themeBtn.textContent='🌙'}
+    themeBtn.addEventListener('click',e=>{const current=document.documentElement.getAttribute('data-theme');const next=current==='dark'?'light':'dark';const overlay=document.createElement('div');overlay.className='theme-overlay';const x=(e.clientX||window.innerWidth/2)+'px';const y=(e.clientY||0)+'px';overlay.style.setProperty('--x',x);overlay.style.setProperty('--y',y);document.body.appendChild(overlay);setTimeout(()=>overlay.remove(),650);document.documentElement.setAttribute('data-theme',next);localStorage.setItem('theme',next);themeBtn.textContent=next==='dark'?'☀️':'🌙'});
+    const toggleTocBtn=document.getElementById('toggleToc');
+    const tocNav=document.getElementById('tocNav');
+    tocNav.style.transition='transform .3s ease, opacity .3s ease';
+    const hideClass='hidden';
+    const styleHidden=document.createElement('style');
+    styleHidden.textContent=`#tocNav.hidden{transform:translateX(-110%);opacity:0;pointer-events:none}`;
     document.head.appendChild(styleHidden);
-    toggleTocBtn.addEventListener('click',()=> tocNav.classList.toggle(hideClass));
+    toggleTocBtn.addEventListener('click',()=>tocNav.classList.toggle(hideClass));
+    const tocLinks=Array.from(document.querySelectorAll('nav.toc a'));
+    tocLinks.forEach(a=>{a.addEventListener('click',e=>{const sel=document.querySelector(a.getAttribute('href'));if(sel){e.preventDefault();sel.scrollIntoView({behavior:'smooth',block:'start'});history.replaceState(null,'',a.getAttribute('href'));}})});
+    const targets=tocLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const io=new IntersectionObserver(entries=>{entries.forEach(entry=>{const id='#'+entry.target.id;const link=tocLinks.find(a=>a.getAttribute('href')===id);if(!link)return;if(entry.isIntersecting){tocLinks.forEach(l=>l.classList.remove('active'));link.classList.add('active');}})},{root:null,rootMargin:'-45% 0px -50% 0px',threshold:0});
+    targets.forEach(t=>io.observe(t));
 
-    /* ======================================
-       TOC: CUỘN MƯỢT + SCROLLSPY
-       - Chặn mặc định khi click, dùng scrollIntoView
-       - IntersectionObserver đánh dấu mục đang hiện trong viewport
-       ====================================== */
-    const tocLinks = Array.from(document.querySelectorAll('nav.toc a'));
-    tocLinks.forEach(a=>{
-      a.addEventListener('click', (e)=>{
-        const sel = document.querySelector(a.getAttribute('href'));
-        if(sel){ e.preventDefault(); sel.scrollIntoView({behavior:'smooth', block:'start'}); history.replaceState(null,'',a.getAttribute('href')); }
-      });
-    });
-    const targets = tocLinks.map(a=>document.querySelector(a.getAttribute('href'))).filter(Boolean);
-    const io = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        const id = '#' + entry.target.id;
-        const link = tocLinks.find(a=>a.getAttribute('href')===id);
-        if(!link) return;
-        if(entry.isIntersecting){
-          tocLinks.forEach(l=>l.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
-    }, {root:null, rootMargin:'-45% 0px -50% 0px', threshold:0});
-    targets.forEach(t=> io.observe(t));
-
-    /* ======================================
-       NGÂN HÀNG CÂU HỎI
-       - type: 'truefalse' | 'fill' | 'short' | 'dragdrop'
-       - level: 'easy' | 'medium' | 'hard'
-       ====================================== */
-    const QUESTIONS = [
-      // ----- DỄ -----
-      { type:'truefalse', level:'easy',
-        q:'(Đúng/Sai) Nước vào tế bào lông hút nhờ thẩm thấu từ đất vào tế bào.',
-        answer:true,
-        explain:'Đúng. Nước đi theo chênh lệch thế nước qua màng sinh chất của tế bào lông hút.'
-      },
-      { type:'fill', level:'easy',
-        q:'Điền: Hấp thụ khoáng thu động diễn ra theo ______ nồng độ từ đất vào rễ.',
-        answers:[[ 'gradien','gradient','theo gradien','theo gradient' ]],
-        explain:'Thu động là theo gradien nồng độ, không tốn năng lượng.'
-      },
-      { type:'short', level:'easy',
-        q:'Kể tên một trong hai con đường từ lông hút vào mạch gỗ.',
-        acceptable:['apoplast','gian bào','symplast','tế bào chất'],
-        explain:'Hai con đường: apoplast (gian bào) và symplast (tế bào chất).'
-      },
-
-      // ----- TRUNG BÌNH -----
-      { type:'truefalse', level:'medium',
-        q:'(Đúng/Sai) Vận chuyển khoáng chủ động đi cùng chiều gradien nồng độ và cần ATP.',
-        answer:false,
-        explain:'Sai. Chủ động đi NGƯỢC gradien và cần ATP.'
-      },
-      { type:'fill', level:'medium',
-        q:'Điền 2 chỗ trống: Con đường ______ (đi giữa thành tế bào) và con đường ______ (đi qua tế bào chất).',
-        answers:[[ 'apoplast','gian bào' ],[ 'symplast','tế bào chất' ]],
-        explain:'Apoplast = gian bào; Symplast = tế bào chất qua plasmodesmata.'
-      },
-      { type:'short', level:'medium',
-        q:'Đai Caspari có vai trò gì trước khi nước/ion vào mạch gỗ?',
-        acceptable:['chặn gian bào','buộc qua màng','kiểm soát chọn lọc','nội bì chặn dòng gian bào','caspari'],
-        explain:'Đai Caspari chặn dòng apoplast, buộc đi qua màng → kiểm soát chọn lọc.'
-      },
-      { type:'dragdrop', level:'medium',
-        q:'Kéo thả thuật ngữ vào mô tả đúng.',
-        pairs:[ {prompt:'Thu động',targetId:'t1'},{prompt:'Chủ động',targetId:'t2'},{prompt:'Thẩm thấu',targetId:'t3'} ],
-        tokens:[ {id:'t1',label:'Ion theo gradien nồng độ (không dùng ATP)'}, {id:'t2',label:'Ion ngược gradien (cần ATP)'}, {id:'t3',label:'Nước theo thế nước qua màng từ cao → thấp'} ],
-        explain:'Thu động↔gradien; Chủ động↔ngược gradien (ATP); Thẩm thấu↔nước theo thế nước.'
-      },
-
-      // ----- KHÓ -----
-      { type:'truefalse', level:'hard',
-        q:'(Đúng/Sai) Ở nội bì, nước có thể đi apoplast vào mạch gỗ mà không qua màng.',
-        answer:false,
-        explain:'Sai. Đai Caspari chặn apoplast, bắt buộc chuyển sang symplast (qua màng).'
-      },
-      { type:'fill', level:'hard',
-        q:'Điền: Vận chuyển chủ động thường dùng các ______ màng sử dụng ______ làm năng lượng.',
-        answers:[[ 'bơm','protein vận chuyển','chất vận chuyển' ],[ 'atp' ]],
-        explain:'Bơm/transporters dùng ATP để đẩy ion ngược gradien.'
-      },
-      { type:'short', level:'hard',
-        q:'Nêu một lợi ích sinh lý của kiểm soát chọn lọc tại đai Caspari.',
-        acceptable:['ngăn ion độc','duy trì cân bằng ion','điều hoà hấp thu','bảo vệ mạch gỗ','ổn định nội môi rễ','lọc ion'],
-        explain:'Giúp tránh ion độc, giữ cân bằng dinh dưỡng trước khi vào xylem.'
-      },
-      { type:'dragdrop', level:'hard',
-        q:'Kéo thả: ghép thuật ngữ – vị trí/đặc điểm.',
-        pairs:[ {prompt:'Apoplast',targetId:'d1'},{prompt:'Symplast',targetId:'d2'},{prompt:'Đai Caspari',targetId:'d3'} ],
-        tokens:[ {id:'d1',label:'Khoang gian bào & thành tế bào'}, {id:'d2',label:'Liên tục tế bào chất qua plasmodesmata'}, {id:'d3',label:'Dải suberin ở nội bì chặn apoplast'} ],
-        explain:'Apoplast↔gian bào; Symplast↔tế bào chất; Caspari↔nội bì chặn apoplast.'
-      }
+    const QUESTIONS=[
+      {type:'truefalse',level:'easy',q:'(Đúng/Sai) Nước vào tế bào lông hút chủ yếu nhờ thẩm thấu từ đất vào tế bào.',answer:true,explain:'Đúng. Nước đi theo chênh lệch thế nước qua màng sinh chất.'},
+      {type:'fill',level:'easy',q:'Điền: Hấp thụ khoáng \u003Cthu ____\u003E diễn ra theo gradien nồng độ.',answers:[["dong","động","thu động"]],explain:'Thu động = theo gradien nồng độ, không tiêu tốn năng lượng.'},
+      {type:'short',level:'easy',q:'Kể tên một trong hai con đường từ vỏ rễ vào mạch gỗ.',acceptable:['apoplast','gian bào','symplast','tế bào chất'],explain:'Hai con đường: apoplast (gian bào) và symplast (tế bào chất).'},
+      {type:'truefalse',level:'medium',q:'(Đúng/Sai) Vận chuyển khoáng chủ động đi cùng chiều gradien nồng độ và không cần ATP.',answer:false,explain:'Sai. Chủ động đi NGƯỢC gradien và cần ATP.'},
+      {type:'fill',level:'medium',q:'Điền 2 trống: ______ (đi giữa thành tế bào) và ______ (đi trong tế bào chất).',answers:[["apoplast","gian bào"],["symplast","tế bào chất"]],explain:'Apoplast ↔ gian bào; Symplast ↔ tế bào chất.'},
+      {type:'short',level:'medium',q:'Nêu một đặc điểm thích nghi giúp lông hút hấp thụ hiệu quả.',acceptable:['thành mỏng','nhiều lông hút','diện tích lớn','tuổi thọ ngắn','tiếp xúc đất lớn','không cutin'],explain:'Ví dụ: thành mỏng, số lượng nhiều, tăng diện tích tiếp xúc, …'},
+      {type:'dragdrop',level:'medium',q:'Ghép thuật ngữ – mô tả.',pairs:[{prompt:'Thu động',targetId:'t1'},{prompt:'Chủ động',targetId:'t2'},{prompt:'Thẩm thấu',targetId:'t3'}],tokens:[{id:'t1',label:'Theo gradien nồng độ (không dùng ATP)'},{id:'t2',label:'Ngược gradien (cần ATP)'},{id:'t3',label:'Nước theo thế nước từ cao → thấp'}],explain:'Thu động↔gradien; Chủ động↔ATP; Thẩm thấu↔thế nước.'},
+      {type:'truefalse',level:'hard',q:'(Đúng/Sai) Ở nội bì, nước có thể đi apoplast vào mạch gỗ mà không qua màng.',answer:false,explain:'Sai. Đai Caspari chặn apoplast, buộc chuyển sang symplast trước khi vào xylem.'},
+      {type:'fill',level:'hard',q:'Điền 2 trống: Vận chuyển chủ động dùng ______ màng và tiêu tốn ______.',answers:[["bơm","protein vận chuyển","chất vận chuyển"],["atp"]],explain:'Các bơm màng sử dụng ATP đẩy ion ngược gradien.'},
+      {type:'short',level:'hard',q:'Liệt kê một trong ba lực duy trì dòng nước đi lên thân.',acceptable:['áp suất rễ','lực hút thoát hơi','thoát hơi','cohesion','adhesion','liên kết','bám dính'],explain:'Ba lực: áp suất rễ; liên kết–bám dính; lực hút do thoát hơi.'},
+      {type:'dragdrop',level:'hard',q:'Kéo thả: ghép đối tượng – vai trò/đặc điểm.',pairs:[{prompt:'Apoplast',targetId:'d1'},{prompt:'Symplast',targetId:'d2'},{prompt:'Đai Caspari',targetId:'d3'},{prompt:'Khí khổng',targetId:'d4'}],tokens:[{id:'d1',label:'Khoang gian bào & thành tế bào'},{id:'d2',label:'Liên tục tế bào chất qua plasmodesmata'},{id:'d3',label:'Dải suberin nội bì chặn apoplast'},{id:'d4',label:'Điều tiết thoát hơi & trao đổi khí'}],explain:'Apoplast↔gian bào; Symplast↔tế bào chất; Caspari↔nội bì; Khí khổng↔thoát hơi.'}
     ];
 
-    /* ======================================
-       HÀM TIỆN ÍCH: Chuẩn hoá chuỗi để so khớp linh hoạt
-       - Hạ chữ thường, bỏ dấu tiếng Việt (NFD), bỏ khoảng thừa
-       ====================================== */
-    const norm = (s)=> (s||'').toString().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').trim();
+    const norm=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu,'').trim();
+    const quizDiv=document.getElementById('quiz');
+    const paletteDiv=document.getElementById('questionPalette');
+    const levelFilter=document.getElementById('levelFilter');
+    const typeFilter=document.getElementById('typeFilter');
 
-    /* ======================================
-       RENDER CÂU HỎI
-       - Lọc theo mức độ & kiểu
-       - Tạo HTML cho từng loại
-       - Gắn DnD cho câu kéo–thả
-       ====================================== */
-    const quizDiv = document.getElementById('quiz');
-    const paletteDiv = document.getElementById('questionPalette'); // dải số câu hỏi
-    const levelFilter = document.getElementById('levelFilter');
-    const typeFilter = document.getElementById('typeFilter');
-
-    function filteredQuestions(){
-      return QUESTIONS.filter(q=> (levelFilter.value==='all'||q.level===levelFilter.value) && (typeFilter.value==='all'||q.type===typeFilter.value));
-    }
+    function filteredQuestions(){return QUESTIONS.filter(q=>(levelFilter.value==='all'||q.level===levelFilter.value)&&(typeFilter.value==='all'||q.type===typeFilter.value))}
 
     function renderQuiz(){
       quizDiv.innerHTML='';
-      const qs = filteredQuestions();
-      qs.forEach((item, idx)=>{
-        // Tạo khung câu hỏi, thêm class phụ theo kiểu để đổi nền
-        const wrap = document.createElement('div');
-        wrap.className = `q-item ${item.type}`;
-
-        // Phần tiêu đề mỗi câu (in đậm + số thứ tự)
-        const icon = item.type==='truefalse'?'✅':item.type==='fill'?'✍️':item.type==='short'?'📝':'🔗';
-        let html = `<div class=\"q-header\"><span class=\"q-icon\">${icon}</span><span class=\"q-title\">[${item.level.toUpperCase()}] ${idx+1}. ${item.q}</span></div>`;
-
-        // Render nội dung theo kiểu câu hỏi
+      const qs=filteredQuestions();
+      qs.forEach((item,idx)=>{
+        const wrap=document.createElement('div');
+        wrap.className=`q-item ${item.type}`;
+        const icon=item.type==='truefalse'?'✅':item.type==='fill'?'✍️':item.type==='short'?'📝':'🔗';
+        let html=`<div class=\"q-header\"><span class=\"q-icon\">${icon}</span><span class=\"q-title\">[${item.level.toUpperCase()}] ${idx+1}. ${item.q}</span></div>`;
         if(item.type==='truefalse'){
-          // Tạo 2 lựa chọn dạng pill đẹp mắt với input ẩn + span hiển thị
-          const opts = [ ['Đúng',true], ['Sai',false] ].map(([lab,val])=>
-            `<label class='choice'><input type='radio' name='q${idx}' value='${val}'/><span>${lab}</span></label>`
-          ).join('');
-          html += `<div class='choices'>${opts}</div>`;
-        } else if(item.type==='fill'){
-          // Tạo N ô trống theo mảng answers
-          html += item.answers.map((_,i)=>`<input class='input' style='margin-top:.5rem' placeholder='Ô trống ${i+1}' data-blank='${i}'/>`).join('');
-        } else if(item.type==='short'){
-          html += `<textarea class='input' rows='2' placeholder='Nhập đáp án ngắn...'></textarea>`;
-        } else if(item.type==='dragdrop'){
-          // Ngân hàng token để kéo
-          html += `<div class='dd-bank'>${item.tokens.map(t=>`<span class='dd-token' draggable='true' data-id='${t.id}'>${t.label}</span>`).join('')}</div>`;
-          // Ô nhận tương ứng với cặp ghép mục tiêu
-          html += item.pairs.map((p,i)=>`<div class='dd-row'><div>${i+1}. ${p.prompt}</div><div class='dd-drop' data-target='${p.targetId}'></div></div>`).join('');
+          const opts=[['Đúng',true],['Sai',false]].map(([lab,val])=>`<label class='choice'><input type='radio' name='q${idx}' value='${val}'/><span>${lab}</span></label>`).join('');
+          html+=`<div class='choices'>${opts}</div>`;
+        }else if(item.type==='fill'){
+          html+=item.answers.map((_,i)=>`<input class='input' style='margin-top:.5rem' placeholder='Ô trống ${i+1}' data-blank='${i}'/>`).join('');
+        }else if(item.type==='short'){
+          html+=`<textarea class='input' rows='2' placeholder='Nhập đáp án ngắn...'></textarea>`;
+        }else if(item.type==='dragdrop'){
+          html+=`<div class='dd-bank'>${item.tokens.map(t=>`<span class='dd-token' draggable='true' data-id='${t.id}'>${t.label}</span>`).join('')}</div>`;
+          html+=item.pairs.map((p,i)=>`<div class='dd-row'><div>${i+1}. ${p.prompt}</div><div class='dd-drop' data-target='${p.targetId}'></div></div>`).join('');
         }
-
-        // Giải thích sẽ ẩn cho đến khi nộp bài
-        html += `<div class='explain' hidden>${item.explain}</div>`;
-        wrap.innerHTML = html;
+        html+=`<div class='explain' hidden>${item.explain}</div>`;
+        wrap.innerHTML=html;
         quizDiv.appendChild(wrap);
-
-        // Kích hoạt kéo–thả cho câu loại dragdrop
         if(item.type==='dragdrop') enableDnD(wrap);
       });
-
-      // Cập nhật tổng số câu để hiển thị điểm dạng 0/N
-      document.getElementById('scoreBox').textContent = `Điểm: 0/${qs.length}`;
-
-      // Render Question Palette sau khi đã render câu hỏi
+      document.getElementById('scoreBox').textContent=`Điểm: 0/${qs.length}`;
       renderPalette();
       markPalette();
     }
 
-    /* ======================================
-       KÉO–THẢ (Drag & Drop)
-       - Lắng nghe dragstart/dragover/drop cho token & ô nhận
-       - Lưu ID token trong dataTransfer để so khớp đích
-       ====================================== */
     function enableDnD(scope){
-      const tokens = scope.querySelectorAll('.dd-token');
-      const drops = scope.querySelectorAll('.dd-drop');
-
-      tokens.forEach(tok=>{
-        tok.addEventListener('dragstart', e=>{
-          e.dataTransfer.setData('text/plain', tok.dataset.id); // chuyển ID token qua dataTransfer
-        });
-      });
-
+      const tokens=scope.querySelectorAll('.dd-token');
+      const drops=scope.querySelectorAll('.dd-drop');
+      tokens.forEach(tok=>{tok.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',tok.dataset.id)})});
       drops.forEach(drop=>{
-        drop.addEventListener('dragover', e=>{ e.preventDefault(); drop.style.background='rgba(148,163,184,.12)'; });
-        drop.addEventListener('dragleave', ()=>{ drop.style.background=''; });
-        drop.addEventListener('drop', e=>{
-          e.preventDefault(); drop.style.background='';
-          const id = e.dataTransfer.getData('text/plain');
-          drop.textContent=''; // dọn vùng trước khi thả
-          // Lấy nhãn hiển thị từ ngân hàng token trong scope (nếu có)
-          const src = scope.querySelector(`.dd-token[data-id="${id}"]`);
-          const chip = document.createElement('span');
-          chip.className = 'dd-token';
-          chip.textContent = src ? src.textContent : id; // fallback dùng ID nếu không tìm thấy
-          chip.setAttribute('data-id', id);
-          drop.appendChild(chip);
-        });
+        drop.addEventListener('dragover',e=>{e.preventDefault();drop.style.background='rgba(148,163,184,.12)'});
+        drop.addEventListener('dragleave',()=>{drop.style.background=''});
+        drop.addEventListener('drop',e=>{e.preventDefault();drop.style.background='';const id=e.dataTransfer.getData('text/plain');drop.textContent='';const src=scope.querySelector(`.dd-token[data-id=\"${id}\"]`);const chip=document.createElement('span');chip.className='dd-token';chip.textContent=src?src.textContent:id;chip.setAttribute('data-id',id);drop.appendChild(chip)});
       });
     }
 
-    /* ======================================
-       QUESTION PALETTE (dải số câu hỏi)
-       - renderPalette(): tạo dải số theo số lượng câu hiện filter
-       - markPalette(): đánh dấu ô đã có thao tác (điền/chọn/kéo)
-       ====================================== */
     function renderPalette(){
       if(!paletteDiv) return;
       paletteDiv.innerHTML='';
-      const qs = filteredQuestions();
-      qs.forEach((_,i)=>{
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'q-pal-btn';
-        btn.textContent = i+1;
-        btn.addEventListener('click',()=>{
-          const block = quizDiv.children[i];
-          if(block){ block.scrollIntoView({behavior:'smooth', block:'start'}); }
-        });
-        paletteDiv.appendChild(btn);
-      });
+      const qs=filteredQuestions();
+      qs.forEach((_,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='q-pal-btn';btn.textContent=i+1;btn.addEventListener('click',()=>{const block=quizDiv.children[i];if(block){block.scrollIntoView({behavior:'smooth',block:'start'})}});paletteDiv.appendChild(btn)});
     }
 
     function markPalette(){
       if(!paletteDiv) return;
-      const qs = filteredQuestions();
+      const qs=filteredQuestions();
       Array.from(paletteDiv.children).forEach((btn,i)=>{
-        const block = quizDiv.children[i];
-        let done = false;
-        const item = qs[i];
-        if(!block || !item) return; // an toàn khi filter thay đổi nhanh
-
-        // Xác định "đã làm" theo từng kiểu
+        const block=quizDiv.children[i];
+        let done=false;const item=qs[i];
+        if(!block||!item) return;
         if(item.type==='truefalse'){
-          done = !!block.querySelector('input[type="radio"]:checked');
+          done=!!block.querySelector('input[type=\"radio\"]:checked');
         }else if(item.type==='fill'){
-          done = Array.from(block.querySelectorAll('input[data-blank]')).some(inp=> inp.value.trim()!=='');
+          done=Array.from(block.querySelectorAll('input[data-blank]')).some(inp=>inp.value.trim()!=='');
         }else if(item.type==='short'){
-          done = (block.querySelector('textarea')?.value||'').trim()!=='';
+          done=(block.querySelector('textarea')?.value||'').trim()!=='';
         }else if(item.type==='dragdrop'){
-          done = Array.from(block.querySelectorAll('.dd-drop')).some(drop=> drop.querySelector('.dd-token'));
+          done=Array.from(block.querySelectorAll('.dd-drop')).some(drop=>drop.querySelector('.dd-token'));
         }
-        btn.classList.toggle('done', done);
+        btn.classList.toggle('done',done);
       });
     }
 
-    /* ======================================
-       KHỞI TẠO & SỰ KIỆN BỘ LỌC
-       ====================================== */
-    // Ẩn/hiện phần Quiz
-    document.getElementById('toggleQuiz').addEventListener('click',()=>{
-      const quizSec=document.getElementById('quizSection');
-      quizSec.style.display = (quizSec.style.display==='none') ? 'block' : 'none';
-    });
+    document.getElementById('toggleQuiz').addEventListener('click',()=>{const quizSec=document.getElementById('quizSection');quizSec.style.display=(quizSec.style.display==='none')?'block':'none'});
 
     renderQuiz();
-    levelFilter.addEventListener('change', renderQuiz);
-    typeFilter.addEventListener('change', renderQuiz);
+    levelFilter.addEventListener('change',renderQuiz);
+    typeFilter.addEventListener('change',renderQuiz);
+    quizDiv.addEventListener('input',markPalette);
+    quizDiv.addEventListener('change',markPalette);
 
-    // Cập nhật trạng thái Palette khi người dùng nhập/chọn trong phần quiz
-    quizDiv.addEventListener('input', markPalette);
-    quizDiv.addEventListener('change', markPalette);
-
-    /* ======================================
-       CHẤM ĐIỂM
-       - Duyệt từng câu, so khớp theo kiểu
-       - Tô viền xanh/đỏ & hiện giải thích
-       ====================================== */
     document.getElementById('submitQuiz').addEventListener('click',()=>{
-      const qs = filteredQuestions();
-      let score = 0;
-      const blocks = Array.from(quizDiv.children);
-
-      blocks.forEach((block, i)=>{
-        const item = qs[i];
-        if(!item) return; // an toàn nếu filter đổi giữa chừng
-        const exp = block.querySelector('.explain');
-        block.classList.remove('correct','wrong');
-
-        let ok = false;
-        if(item.type==='truefalse'){
-          const sel = block.querySelector('input[type="radio"]:checked');
-          ok = !!sel && (sel.value === String(item.answer));
-        }else if(item.type==='fill'){
-          ok = true; // giả định đúng, nếu có ô sai sẽ gán lại false
-          const inputs = block.querySelectorAll('input[data-blank]');
-          inputs.forEach((inp, j)=>{
-            const val = norm(inp.value);
-            const acc = (item.answers[j]||[]).map(norm);
-            const hit = acc.includes(val);
-            inp.style.borderColor = hit ? 'var(--success)' : 'var(--danger)';
-            if(!hit) ok=false;
-          });
-        }else if(item.type==='short'){
-          const val = norm(block.querySelector('textarea').value);
-          ok = (item.acceptable||[]).map(norm).some(a=> val.includes(a) || a.includes(val));
-        }else if(item.type==='dragdrop'){
-          ok = true;
-          item.pairs.forEach(p=>{
-            const drop = block.querySelector(`.dd-drop[data-target='${p.targetId}']`);
-            const id = drop?.querySelector('.dd-token')?.getAttribute('data-id');
-            if(id!==p.targetId) ok=false;
-          });
+      const qs=filteredQuestions();
+      let score=0;
+      const blocks=Array.from(quizDiv.children);
+      blocks.forEach((block,i)=>{
+        const item=qs[i];
+        if(!item) return;
+        const exp=block.querySelector('.explain');
+        let ans=block.querySelector('.answer');
+        if(!ans){
+          ans=document.createElement('div');
+          ans.className='answer';
+          ans.style.marginTop='.4rem';ans.style.fontSize='.95rem';ans.style.borderTop='1px dashed var(--border)';ans.style.paddingTop='.4rem';
+          block.appendChild(ans);
         }
-
+        block.classList.remove('correct','wrong');
+        let ok=false;
+        let answerHTML='';
+        if(item.type==='truefalse'){
+          const sel=block.querySelector('input[type="radio"]:checked');
+          ok=!!sel&&(sel.value===String(item.answer));
+          answerHTML=`Đáp án: <strong>${item.answer? 'Đúng':'Sai'}</strong>`;
+        }else if(item.type==='fill'){
+          ok=true;
+          const inputs=block.querySelectorAll('input[data-blank]');
+          inputs.forEach((inp,j)=>{const val=norm(inp.value);const acc=(item.answers[j]||[]).map(norm);const hit=acc.includes(val);inp.style.borderColor=hit?'var(--success)':'var(--danger)';if(!hit) ok=false});
+          const show=item.answers.map((alts,idx)=>`Ô ${idx+1}: <em>${alts.join(' / ')}</em>`).join(' · ');
+          answerHTML=`Đáp án: ${show}`;
+        }else if(item.type==='short'){
+          const textEl=block.querySelector('textarea');
+          const val=norm(textEl?textEl.value:'');
+          ok=(item.acceptable||[]).map(norm).some(a=>val.includes(a)||a.includes(val));
+          const sug=(item.acceptable&&item.acceptable[0])?item.acceptable[0]:'';
+          answerHTML=`Gợi ý đáp án: <em>${sug}</em>`;
+        }else if(item.type==='dragdrop'){
+          ok=true;
+          const labelById=Object.fromEntries((item.tokens||[]).map(t=>[t.id,t.label]));
+          item.pairs.forEach(p=>{const drop=block.querySelector(`.dd-drop[data-target='${p.targetId}']`);const id=drop?.querySelector('.dd-token')?.getAttribute('data-id');if(id!==p.targetId) ok=false});
+          const map=item.pairs.map((p,idx)=>`${idx+1}. ${p.prompt} → <em>${labelById[p.targetId]||p.targetId}</em>`).join(' · ');
+          answerHTML=`Đáp án: ${map}`;
+        }
         if(ok) score++;
-        block.classList.add(ok ? 'correct' : 'wrong');
-        const expEl = exp; if(expEl) expEl.hidden = false; // hiện giải thích
+        block.classList.add(ok?'correct':'wrong');
+        if(exp) exp.hidden=false;
+        ans.innerHTML=answerHTML;
       });
-
-      document.getElementById('scoreBox').textContent = `Điểm: ${score}/${qs.length}`;
-      markPalette(); // cập nhật trạng thái làm bài sau khi chấm
+      document.getElementById('scoreBox').textContent=`Điểm: ${score}/${qs.length}`;
+      markPalette();
     });
 
-    // Làm lại: render lại toàn bộ để reset trạng thái & điểm
-    document.getElementById('resetQuiz').addEventListener('click', renderQuiz);
+    document.getElementById('resetQuiz').addEventListener('click',()=>{renderQuiz();});
 
-    /* ======================================
-       TỰ KIỂM ("TEST CASES") – chạy nhanh sau khi trang tải
-       - Không thay đổi giao diện đáng kể; log kết quả ra console
-       ====================================== */
-    (function runSelfTests(){
+    (function(){
       try{
-        const logs=[]; let pass=0, fail=0;
-        const log = (ok,msg)=>{ (ok?pass:fail) && 0; logs.push((ok?'✅ ':'❌ ')+msg); };
-        const qs = filteredQuestions();
-        // TC1: Số block hiển thị == số câu sau khi lọc
-        log(quizDiv.children.length===qs.length, 'TC1: Render số câu khớp bộ lọc');
-
-        // TC2: Nếu có câu Đúng/Sai, tick một lựa chọn rồi đánh dấu palette
-        const tfIndex = qs.findIndex(q=>q.type==='truefalse');
-        if(tfIndex>=0){
-          const block = quizDiv.children[tfIndex];
-          const radio = block.querySelector("input[type='radio']");
-          if(radio){ radio.checked = true; markPalette(); }
-          const after = document.querySelectorAll('.q-pal-btn')[tfIndex]?.classList.contains('done');
-          log(after===true, 'TC2: Palette đánh dấu done khi chọn Đ/S');
-          if(radio){ radio.checked=false; markPalette(); }
-        } else { log(true, 'TC2: Bỏ qua (không có câu Đ/S)'); }
-
-        // TC3: Nếu có câu Điền, nhập đúng 1 ô → palette done
-        const fillIndex = qs.findIndex(q=>q.type==='fill');
-        if(fillIndex>=0){
-          const item = qs[fillIndex];
-          const block = quizDiv.children[fillIndex];
-          const inp = block.querySelector('input[data-blank]');
-          if(inp){ inp.value = item.answers[0][0]; markPalette(); }
-          const after = document.querySelectorAll('.q-pal-btn')[fillIndex]?.classList.contains('done');
-          log(after===true, 'TC3: Palette đánh dấu done khi điền');
-          if(inp){ inp.value=''; markPalette(); }
-        } else { log(true, 'TC3: Bỏ qua (không có câu Điền)'); }
-
-        // TC4: Kéo–thả – tồn tại vùng thả cho câu dragdrop
-        const ddIndex = qs.findIndex(q=>q.type==='dragdrop');
-        if(ddIndex>=0){
-          const block = quizDiv.children[ddIndex];
-          const drops = block.querySelectorAll('.dd-drop');
-          log(drops.length>0, 'TC4: Có vùng thả cho câu kéo–thả');
-        } else { log(true, 'TC4: Bỏ qua (không có câu Kéo–thả)'); }
-
-        // TC5: Khi bấm Nộp bài → tất cả giải thích đều hiện
+        const logs=[];const log=(ok,msg)=>logs.push((ok?'✅ ':'❌ ')+msg);
+        const qs=filteredQuestions();
+        log(quizDiv.children.length===qs.length,'TC1: Render số câu khớp bộ lọc');
+        const tfIndex=qs.findIndex(q=>q.type==='truefalse');
+        if(tfIndex>=0){const block=quizDiv.children[tfIndex];const radio=block.querySelector("input[type='radio']");if(radio){radio.checked=true;markPalette()}const done=document.querySelectorAll('#questionPalette .q-pal-btn')[tfIndex]?.classList.contains('done');log(done===true,'TC2: Palette done khi chọn Đ/S');if(radio){radio.checked=false;markPalette()}} else {log(true,'TC2: Bỏ qua (không có Đ/S)')}
+        const fillIndex=qs.findIndex(q=>q.type==='fill');
+        if(fillIndex>=0){const item=qs[fillIndex];const block=quizDiv.children[fillIndex];const inp=block.querySelector('input[data-blank]');if(inp){inp.value=item.answers[0][0];markPalette()}const done=document.querySelectorAll('#questionPalette .q-pal-btn')[fillIndex]?.classList.contains('done');log(done===true,'TC3: Palette done khi điền');if(inp){inp.value='';markPalette()}} else {log(true,'TC3: Bỏ qua (không có Điền)')}
+        const ddIndex=qs.findIndex(q=>q.type==='dragdrop');
+        if(ddIndex>=0){const block=quizDiv.children[ddIndex];const drops=block.querySelectorAll('.dd-drop');log(drops.length>0,'TC4: Có vùng drop cho kéo‑thả')} else {log(true,'TC4: Bỏ qua (không có Kéo‑thả)')}
         document.getElementById('submitQuiz').click();
-        const allExplainsVisible = Array.from(document.querySelectorAll('#quiz .explain')).every(e=>e.hidden===false);
-        log(allExplainsVisible, 'TC5: Nộp bài hiển thị giải thích cho tất cả câu');
-
-        // TC6: ScoreBox hiển thị đúng định dạng "Điểm: x/y"
-        const scoreText = document.getElementById('scoreBox').textContent.trim();
-        log(/^Điểm:\s*\d+\/\d+$/.test(scoreText), 'TC6: Điểm hiển thị đúng định dạng');
-
-        // TC7: Palette có số nút bằng số câu sau khi lọc
-        const paletteCount = document.querySelectorAll('#questionPalette .q-pal-btn').length;
-        log(paletteCount===qs.length, 'TC7: Số nút palette khớp số câu');
-
-        // Hiển thị kết quả test ở console và một dòng nhỏ ẩn dành cho debug
+        const allExplain=Array.from(document.querySelectorAll('#quiz .explain')).every(e=>e.hidden===false);
+        log(allExplain,'TC5: Giải thích hiện cho tất cả câu sau khi nộp');
+        const scoreText=document.getElementById('scoreBox').textContent.trim();
+        log(/^Điểm:\s*\d+\/\d+$/.test(scoreText),'TC6: Score định dạng đúng');
+        const paletteCount=document.querySelectorAll('#questionPalette .q-pal-btn').length;
+        log(paletteCount===qs.length,'TC7: Palette khớp số câu');
         logs.forEach(l=>console.log(l));
-        const status = document.createElement('div');
+        const status=document.createElement('div');
         status.id='selftestStatus';
         status.style.cssText='margin:8px 0;font-size:.85rem;color:var(--muted)';
-        status.textContent = `Chẩn đoán: ${logs.filter(l=>l.startsWith('✅')).length}/${logs.length} tests passed`;
-        const heading = document.getElementById('quizSectionHeading');
-        if(heading && heading.parentNode){ heading.parentNode.insertBefore(status, heading.nextSibling); }
-      }catch(e){ console.error('Self-tests error:', e); }
+        status.textContent=`Chẩn đoán: ${logs.filter(l=>l.startsWith('✅')).length}/${logs.length} tests passed`;
+        const heading=document.getElementById('quizSectionHeading');
+        if(heading&&heading.parentNode){heading.parentNode.insertBefore(status,heading.nextSibling)}
+      }catch(e){console.error('Self-tests error:',e)}
     })();
   </script>
 </body>
