@@ -280,4 +280,178 @@
       {type:'fill',level:'easy',q:'Điền: Hấp thụ khoáng \u003Cthu ____\u003E diễn ra theo gradien nồng độ.',answers:[["dong","động","thu động"]],explain:'Thu động = theo gradien nồng độ, không tiêu tốn năng lượng.'},
       {type:'short',level:'easy',q:'Kể tên một trong hai con đường từ vỏ rễ vào mạch gỗ.',acceptable:['apoplast','gian bào','symplast','tế bào chất'],explain:'Hai con đường: apoplast (gian bào) và symplast (tế bào chất).'},
       {type:'truefalse',level:'medium',q:'(Đúng/Sai) Vận chuyển khoáng chủ động đi cùng chiều gradien nồng độ và không cần ATP.',answer:false,explain:'Sai. Chủ động đi NGƯỢC gradien và cần ATP.'},
-      {type:'fill',level:'medium',q:'Điền 2 trống: ______ (đi giữa thành tế bào) 
+            {type:'fill',level:'medium',q:'Điền 2 trống: ______ (đi giữa thành tế bào) và ______ (đi trong tế bào chất).',answers:[["apoplast","gian bào"],["symplast","tế bào chất"]],explain:'Apoplast ↔ gian bào; Symplast ↔ tế bào chất.'},
+      {type:'short',level:'medium',q:'Nêu một đặc điểm thích nghi giúp lông hút hấp thụ hiệu quả.',acceptable:['thành mỏng','nhiều lông hút','diện tích lớn','tuổi thọ ngắn','tiếp xúc đất lớn','không cutin'],explain:'Ví dụ: thành mỏng, số lượng nhiều, tăng diện tích tiếp xúc, …'},
+      {type:'dragdrop',level:'medium',q:'Ghép thuật ngữ – mô tả.',pairs:[{prompt:'Thu động',targetId:'t1'},{prompt:'Chủ động',targetId:'t2'},{prompt:'Thẩm thấu',targetId:'t3'}],tokens:[{id:'t1',label:'Theo gradien nồng độ (không dùng ATP)'},{id:'t2',label:'Ngược gradien (cần ATP)'},{id:'t3',label:'Nước theo thế nước từ cao → thấp'}],explain:'Thu động↔gradien; Chủ động↔ATP; Thẩm thấu↔thế nước.'},
+      {type:'truefalse',level:'hard',q:'(Đúng/Sai) Ở nội bì, nước có thể đi apoplast vào mạch gỗ mà không qua màng.',answer:false,explain:'Sai. Đai Caspari chặn apoplast, buộc chuyển sang symplast trước khi vào xylem.'},
+      {type:'fill',level:'hard',q:'Điền 2 trống: Vận chuyển chủ động dùng ______ màng và tiêu tốn ______.',answers:[["bơm","protein vận chuyển","chất vận chuyển"],["atp"]],explain:'Các bơm màng sử dụng ATP đẩy ion ngược gradien.'},
+      {type:'short',level:'hard',q:'Liệt kê một trong ba lực duy trì dòng nước đi lên thân.',acceptable:['áp suất rễ','lực hút thoát hơi','thoát hơi','cohesion','adhesion','liên kết','bám dính'],explain:'Ba lực: áp suất rễ; liên kết–bám dính; lực hút do thoát hơi.'},
+      {type:'dragdrop',level:'hard',q:'Kéo thả: ghép đối tượng – vai trò/đặc điểm.',pairs:[{prompt:'Apoplast',targetId:'d1'},{prompt:'Symplast',targetId:'d2'},{prompt:'Đai Caspari',targetId:'d3'},{prompt:'Khí khổng',targetId:'d4'}],tokens:[{id:'d1',label:'Khoang gian bào & thành tế bào'},{id:'d2',label:'Liên tục tế bào chất qua plasmodesmata'},{id:'d3',label:'Dải suberin nội bì chặn apoplast'},{id:'d4',label:'Điều tiết thoát hơi & trao đổi khí'}],explain:'Apoplast↔gian bào; Symplast↔tế bào chất; Caspari↔nội bì; Khí khổng↔thoát hơi.'}
+    ];
+
+    const norm=s=>(s||'').toString().toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').trim();
+    const quizDiv=document.getElementById('quiz');
+    const paletteDiv=document.getElementById('questionPalette');
+    const levelFilter=document.getElementById('levelFilter');
+    const typeFilter=document.getElementById('typeFilter');
+
+    function filteredQuestions(){return QUESTIONS.filter(q=>(levelFilter.value==='all'||q.level===levelFilter.value)&&(typeFilter.value==='all'||q.type===typeFilter.value))}
+
+    function renderQuiz(){
+      quizDiv.innerHTML='';
+      const qs=filteredQuestions();
+      qs.forEach((item,idx)=>{
+        const wrap=document.createElement('div');
+        wrap.className=`q-item ${item.type}`;
+        const icon=item.type==='truefalse'?'✅':item.type==='fill'?'✍️':item.type==='short'?'📝':'🔗';
+        let html=`<div class=\"q-header\"><span class=\"q-icon\">${icon}</span><span class=\"q-title\">[${item.level.toUpperCase()}] ${idx+1}. ${item.q}</span></div>`;
+        if(item.type==='truefalse'){
+          const opts=[['Đúng',true],['Sai',false]].map(([lab,val])=>`<label class='choice'><input type='radio' name='q${idx}' value='${val}'/><span>${lab}</span></label>`).join('');
+          html+=`<div class='choices'>${opts}</div>`;
+        }else if(item.type==='fill'){
+          html+=item.answers.map((_,i)=>`<input class='input' style='margin-top:.5rem' placeholder='Ô trống ${i+1}' data-blank='${i}'/>`).join('');
+        }else if(item.type==='short'){
+          html+=`<textarea class='input' rows='2' placeholder='Nhập đáp án ngắn...'></textarea>`;
+        }else if(item.type==='dragdrop'){
+          html+=`<div class='dd-bank'>${item.tokens.map(t=>`<span class='dd-token' draggable='true' data-id='${t.id}'>${t.label}</span>`).join('')}</div>`;
+          html+=item.pairs.map((p,i)=>`<div class='dd-row'><div>${i+1}. ${p.prompt}</div><div class='dd-drop' data-target='${p.targetId}'></div></div>`).join('');
+        }
+        html+=`<div class='explain' hidden>${item.explain}</div>`;
+        wrap.innerHTML=html;
+        quizDiv.appendChild(wrap);
+        if(item.type==='dragdrop') enableDnD(wrap);
+      });
+      document.getElementById('scoreBox').textContent=`Điểm: 0/${qs.length}`;
+      renderPalette();
+      markPalette();
+    }
+
+    function enableDnD(scope){
+      const tokens=scope.querySelectorAll('.dd-token');
+      const drops=scope.querySelectorAll('.dd-drop');
+      tokens.forEach(tok=>{tok.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',tok.dataset.id)})});
+      drops.forEach(drop=>{
+        drop.addEventListener('dragover',e=>{e.preventDefault();drop.style.background='rgba(148,163,184,.12)'});
+        drop.addEventListener('dragleave',()=>{drop.style.background=''});
+        drop.addEventListener('drop',e=>{e.preventDefault();drop.style.background='';const id=e.dataTransfer.getData('text/plain');drop.textContent='';const src=scope.querySelector(`.dd-token[data-id=\"${id}\"]`);const chip=document.createElement('span');chip.className='dd-token';chip.textContent=src?src.textContent:id;chip.setAttribute('data-id',id);drop.appendChild(chip)});
+      });
+    }
+
+    function renderPalette(){
+      if(!paletteDiv) return;
+      paletteDiv.innerHTML='';
+      const qs=filteredQuestions();
+      qs.forEach((_,i)=>{const btn=document.createElement('button');btn.type='button';btn.className='q-pal-btn';btn.textContent=i+1;btn.addEventListener('click',()=>{const block=quizDiv.children[i];if(block){block.scrollIntoView({behavior:'smooth',block:'start'})}});paletteDiv.appendChild(btn)});
+    }
+
+    function markPalette(){
+      if(!paletteDiv) return;
+      const qs=filteredQuestions();
+      Array.from(paletteDiv.children).forEach((btn,i)=>{
+        const block=quizDiv.children[i];
+        let done=false;const item=qs[i];
+        if(!block||!item) return;
+        if(item.type==='truefalse'){
+          done=!!block.querySelector('input[type=\"radio\"]:checked');
+        }else if(item.type==='fill'){
+          done=Array.from(block.querySelectorAll('input[data-blank]')).some(inp=>inp.value.trim()!=='');
+        }else if(item.type==='short'){
+          done=(block.querySelector('textarea')?.value||'').trim()!=='';
+        }else if(item.type==='dragdrop'){
+          done=Array.from(block.querySelectorAll('.dd-drop')).some(drop=>drop.querySelector('.dd-token'));
+        }
+        btn.classList.toggle('done',done);
+      });
+    }
+
+    document.getElementById('toggleQuiz').addEventListener('click',()=>{const quizSec=document.getElementById('quizSection');quizSec.style.display=(quizSec.style.display==='none')?'block':'none'});
+
+    renderQuiz();
+    levelFilter.addEventListener('change',renderQuiz);
+    typeFilter.addEventListener('change',renderQuiz);
+    quizDiv.addEventListener('input',markPalette);
+    quizDiv.addEventListener('change',markPalette);
+
+    document.getElementById('submitQuiz').addEventListener('click',()=>{
+      const qs=filteredQuestions();
+      let score=0;
+      const blocks=Array.from(quizDiv.children);
+      blocks.forEach((block,i)=>{
+        const item=qs[i];
+        if(!item) return;
+        const exp=block.querySelector('.explain');
+        let ans=block.querySelector('.answer');
+        if(!ans){
+          ans=document.createElement('div');
+          ans.className='answer';
+          ans.style.marginTop='.4rem';ans.style.fontSize='.95rem';ans.style.borderTop='1px dashed var(--border)';ans.style.paddingTop='.4rem';
+          block.appendChild(ans);
+        }
+        block.classList.remove('correct','wrong');
+        let ok=false;
+        let answerHTML='';
+        if(item.type==='truefalse'){
+          const sel=block.querySelector('input[type="radio"]:checked');
+          ok=!!sel&&(sel.value===String(item.answer));
+          answerHTML=`Đáp án: <strong>${item.answer? 'Đúng':'Sai'}</strong>`;
+        }else if(item.type==='fill'){
+          ok=true;
+          const inputs=block.querySelectorAll('input[data-blank]');
+          inputs.forEach((inp,j)=>{const val=norm(inp.value);const acc=(item.answers[j]||[]).map(norm);const hit=acc.includes(val);inp.style.borderColor=hit?'var(--success)':'var(--danger)';if(!hit) ok=false});
+          const show=item.answers.map((alts,idx)=>`Ô ${idx+1}: <em>${alts.join(' / ')}</em>`).join(' · ');
+          answerHTML=`Đáp án: ${show}`;
+        }else if(item.type==='short'){
+          const textEl=block.querySelector('textarea');
+          const val=norm(textEl?textEl.value:'');
+          ok=(item.acceptable||[]).map(norm).some(a=>val.includes(a)||a.includes(val));
+          const sug=(item.acceptable&&item.acceptable[0])?item.acceptable[0]:'';
+          answerHTML=`Gợi ý đáp án: <em>${sug}</em>`;
+        }else if(item.type==='dragdrop'){
+          ok=true;
+          const labelById=Object.fromEntries((item.tokens||[]).map(t=>[t.id,t.label]));
+          item.pairs.forEach(p=>{const drop=block.querySelector(`.dd-drop[data-target='${p.targetId}']`);const id=drop?.querySelector('.dd-token')?.getAttribute('data-id');if(id!==p.targetId) ok=false});
+          const map=item.pairs.map((p,idx)=>`${idx+1}. ${p.prompt} → <em>${labelById[p.targetId]||p.targetId}</em>`).join(' · ');
+          answerHTML=`Đáp án: ${map}`;
+        }
+        if(ok) score++;
+        block.classList.add(ok?'correct':'wrong');
+        if(exp) exp.hidden=false;
+        ans.innerHTML=answerHTML;
+        ans.hidden=false;
+      });
+      document.getElementById('scoreBox').textContent=`Điểm: ${score}/${qs.length}`;
+      markPalette();
+    });
+
+    document.getElementById('resetQuiz').addEventListener('click',()=>{renderQuiz();});
+
+    (function(){
+      try{
+        const logs=[];const log=(ok,msg)=>logs.push((ok?'✅ ':'❌ ')+msg);
+        const qs=filteredQuestions();
+        log(quizDiv.children.length===qs.length,'TC1: Render số câu khớp bộ lọc');
+        const tfIndex=qs.findIndex(q=>q.type==='truefalse');
+        if(tfIndex>=0){const block=quizDiv.children[tfIndex];const radio=block.querySelector("input[type='radio']");if(radio){radio.checked=true;markPalette()}const done=document.querySelectorAll('#questionPalette .q-pal-btn')[tfIndex]?.classList.contains('done');log(done===true,'TC2: Palette done khi chọn Đ/S');if(radio){radio.checked=false;markPalette()}} else {log(true,'TC2: Bỏ qua (không có Đ/S)')}
+        const fillIndex=qs.findIndex(q=>q.type==='fill');
+        if(fillIndex>=0){const item=qs[fillIndex];const block=quizDiv.children[fillIndex];const inp=block.querySelector('input[data-blank]');if(inp){inp.value=item.answers[0][0];markPalette()}const done=document.querySelectorAll('#questionPalette .q-pal-btn')[fillIndex]?.classList.contains('done');log(done===true,'TC3: Palette done khi điền');if(inp){inp.value='';markPalette()}} else {log(true,'TC3: Bỏ qua (không có Điền)')}
+        const ddIndex=qs.findIndex(q=>q.type==='dragdrop');
+        if(ddIndex>=0){const block=quizDiv.children[ddIndex];const drops=block.querySelectorAll('.dd-drop');log(drops.length>0,'TC4: Có vùng drop cho kéo‑thả')} else {log(true,'TC4: Bỏ qua (không có Kéo‑thả)')}
+        void 0
+        const allExplain=Array.from(document.querySelectorAll('#quiz .explain')).every(e=>e.hidden===false);
+        log(allExplain,'TC5: Giải thích hiện cho tất cả câu sau khi nộp');
+        const scoreText=document.getElementById('scoreBox').textContent.trim();
+        log(/^Điểm:\s*\d+\/\d+$/.test(scoreText),'TC6: Score định dạng đúng');
+        const paletteCount=document.querySelectorAll('#questionPalette .q-pal-btn').length;
+        log(paletteCount===qs.length,'TC7: Palette khớp số câu');
+        logs.forEach(l=>console.log(l));
+        const status=document.createElement('div');
+        status.id='selftestStatus';
+        status.style.cssText='margin:8px 0;font-size:.85rem;color:var(--muted)';
+        status.textContent=`Chẩn đoán: ${logs.filter(l=>l.startsWith('✅')).length}/${logs.length} tests passed`;
+        const heading=document.getElementById('quizSectionHeading');
+        if(heading&&heading.parentNode){heading.parentNode.insertBefore(status,heading.nextSibling)}
+      }catch(e){console.error('Self-tests error:',e)}
+    })();
+  </script>
+</body>
+</html>
