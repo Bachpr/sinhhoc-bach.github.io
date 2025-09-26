@@ -242,7 +242,25 @@
     const savedTheme=localStorage.getItem('theme');
     const themeBtn=document.getElementById('themeBtn');
     if(savedTheme){document.documentElement.setAttribute('data-theme',savedTheme);themeBtn.textContent=savedTheme==='dark'?'☀️':'🌙'}else{themeBtn.textContent='🌙'}
-    themeBtn.addEventListener('click',e=>{const current=document.documentElement.getAttribute('data-theme');const next=current==='dark'?'light':'dark';const overlay=document.createElement('div');overlay.className='theme-overlay';const x=(e.clientX||window.innerWidth/2)+'px';const y=(e.clientY||0)+'px';overlay.style.setProperty('--x',x);overlay.style.setProperty('--y',y);document.body.appendChild(overlay);setTimeout(()=>overlay.remove(),650);document.documentElement.setAttribute('data-theme',next);localStorage.setItem('theme',next);themeBtn.textContent=next==='dark'?'☀️':'🌙'});
+    themeBtn.addEventListener('click',e=>{
+      const current=document.documentElement.getAttribute('data-theme');
+      const next=current==='dark'?'light':'dark';
+      const overlay=document.createElement('div');
+      overlay.className='theme-overlay';
+      const x=(e && e.clientX ? e.clientX : window.innerWidth/2)+'px';
+      const y=(e && e.clientY ? e.clientY : window.innerHeight/2)+'px';
+      overlay.style.setProperty('--x',x);
+      overlay.style.setProperty('--y',y);
+      const removeOverlay=()=>overlay.remove();
+      overlay.addEventListener('animationend',removeOverlay,{once:true});
+      if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+        overlay.style.animationDuration='0s';
+      }
+      document.body.appendChild(overlay);
+      document.documentElement.setAttribute('data-theme',next);
+      localStorage.setItem('theme',next);
+      themeBtn.textContent=next==='dark'?'☀️':'🌙'
+    });
     const toggleTocBtn=document.getElementById('toggleToc');
     const tocNav=document.getElementById('tocNav');
     tocNav.style.transition='transform .3s ease, opacity .3s ease';
@@ -262,5 +280,4 @@
       {type:'fill',level:'easy',q:'Điền: Hấp thụ khoáng \u003Cthu ____\u003E diễn ra theo gradien nồng độ.',answers:[["dong","động","thu động"]],explain:'Thu động = theo gradien nồng độ, không tiêu tốn năng lượng.'},
       {type:'short',level:'easy',q:'Kể tên một trong hai con đường từ vỏ rễ vào mạch gỗ.',acceptable:['apoplast','gian bào','symplast','tế bào chất'],explain:'Hai con đường: apoplast (gian bào) và symplast (tế bào chất).'},
       {type:'truefalse',level:'medium',q:'(Đúng/Sai) Vận chuyển khoáng chủ động đi cùng chiều gradien nồng độ và không cần ATP.',answer:false,explain:'Sai. Chủ động đi NGƯỢC gradien và cần ATP.'},
-      {type:'fill',level:'medium',q:'Điền 2 trống: ______ (đi giữa thành tế bào) và ______ (đi trong tế bào chất).',answers:[["apoplast","gian bào"],["symplast","tế bào chất"]],explain:'Apoplast ↔ gian bào; Symplast ↔ tế bào chất.'},
-      {type:'short',level:'medium',q:'Nêu một đặc điểm thích nghi giúp lông hút hấp thụ hiệu quả.',acceptable:['thành mỏng','nhiều lông hút','diện tích lớn','tuổi thọ ngắn','tiếp xúc đất lớn','không cuti
+      {type:'fill',level:'medium',q:'Điền 2 trống: ______ (đi giữa thành tế bào) 
